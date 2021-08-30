@@ -1,0 +1,19 @@
+version: v1beta1
+name: buf.build/harwoeck/azoo
+build:
+  roots:
+    - proto
+lint:
+  use:
+    - DEFAULT
+    - COMMENT_ENUM
+    - COMMENT_ENUM_VALUE
+    - COMMENT_ONEOF
+    - COMMENT_RPC
+    - COMMENT_SERVICE
+    - UNARY_RPC
+    - ENUM_FIRST_VALUE_ZERO
+  enum_zero_value_suffix: _INVALID
+  service_suffix: API
+deps:
+  - buf.build/beta/googleapis

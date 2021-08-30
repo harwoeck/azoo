@@ -1,0 +1,9 @@
+github.com/harwoeck/common-mage/coreh v0.0.0-20210702142106-0f1c4d694141 h1:ph1uH4eMcM1VLhmONJCtXlE+9eoRF5LvxWAxerO/PX4=
+github.com/harwoeck/common-mage/coreh v0.0.0-20210702142106-0f1c4d694141/go.mod h1:G8npWg5ur9PqNQiYUCJph9xcemswL9z5/lFqh/amO3E=
+github.com/harwoeck/common-mage/protoh v0.0.0-20210709130827-e188b06b1d25 h1:1wNO8vy8AzxlAn4kbvInKmxcl4rqx6YE1FxKUVbk/dI=
+github.com/harwoeck/common-mage/protoh v0.0.0-20210709130827-e188b06b1d25/go.mod h1:3IAKhoU3sC/tQD0bJPGdMbb1gioKQoWo3nB2L1ERppY=
+github.com/magefile/mage v1.11.0 h1:C/55Ywp9BpgVVclD3lRnSYCwXTYxmSppIgLeDYlNuls=
+github.com/magefile/mage v1.11.0/go.mod h1:z5UZb/iS3GoOSn0JgWuiw7dxlurVYTu+/jHXqQg881A=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b h1:h8qDotaEPuJATrMmW04NCwg7v22aHH28wwpauUhK9Oo=
+gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
