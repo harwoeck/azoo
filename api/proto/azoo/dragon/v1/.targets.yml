@@ -1,0 +1,4 @@
+targets:
+  - builder: twirpgo
+    opts:
+      - flatten

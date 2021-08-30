@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package azoo.dragon.v1;
+option go_package = "azoo.dev/api/generated/dragonv1";
+
+// DragonAPI provides a cryptographic service around a dvx (azoo.dev/utils/dvx)
+// Protocol instance.
+service DragonAPI {
+  // CreateKey creates a new key of the specified type. For Signing keys (e.g.
+  // Public-Private-Key-Pairs) the public-key part is returned to the caller,
+  // who can verify signatures independently afterwards.
+  rpc CreateKey(CreateKeyRequest) returns (CreateKeyResponse) {}
+
+  // Encrypt encrypts the passed raw data and returns a ciphertext.
+  rpc Encrypt(EncryptRequest) returns (EncryptResponse) {}
+  // Decrypt decrypts the passed ciphertext and returns the raw data.
+  rpc Decrypt(DecryptRequest) returns (DecryptResponse) {}
+
+  // MAC computes a massage-authentication-code (tag) for the passed message
+  // and returns it.
+  rpc MAC(MACRequest) returns (MACResponse) {}
+
+  // Sign signs the passed message and returns the computed signature.
+  rpc Sign(SignRequest) returns (SignResponse) {}
+  // Verify verifies that the passed signature is valid for the passed message.
+  rpc Verify(VerifyRequest) returns (VerifyResponse) {}
+
+  // GenerateTOTP generates a TOTP selector ID and it's corresponding URI and
+  // QR-Code for user-setup.
+  rpc GenerateTOTP(GenerateTOTPRequest) returns (GenerateTOTPResponse) {}
+  // VerifyTOTP verifies if a code is valid for a specific TOTP selector ID and
+  // a associated account_id.
+  rpc VerifyTOTP(VerifyTOTPRequest) returns (VerifyTOTPResponse) {}
+  // BatchVerifyTOTP is the same as VerifyTOTP but accepts multiple TOTP
+  // selector IDs at once. This is useful when accounts can be associated with
+  // multiple TOTP setups.
+  rpc BatchVerifyTOTP(BatchVerifyTOTPRequest) returns (BatchVerifyTOTPResponse) {}
+  // DeleteTOTP should delete the underlying TOTP secret. This is irrelevant for
+  // a dvx.Protocol (as all keys are derived dynamically).
+  rpc DeleteTOTP(DeleteTOTPRequest) returns (DeleteTOTPResponse) {}
+}
+
+message CreateKeyRequest {
+  // Type is the type of key you want to create
+  enum Type {
+    // INVALID is the unspecified zero value of Type.
+    TYPE_INVALID = 0;
+    // ENCRYPTION specifies a secret key for symmetric encryption.
+    TYPE_ENCRYPTION = 1;
+    // SIGNING specifies a public-private key pair for signing/verifying.
+    TYPE_SIGNING = 2;
+    // MAC specifies a secret key for computing a keyed message-authentication-
+    // code (e.g. MAC-tag).
+    TYPE_MAC = 3;
+  }
+
+  string key_ring = 1;
+  Type type = 2;
+}
+message CreateKeyResponse {
+  message EncryptionKey {}
+  message SigningKey {
+    bytes public_key = 1;
+  }
+  message MACKey {}
+
+  EncryptionKey encryption_key = 1;
+  SigningKey signing_key = 2;
+  MACKey mac_key = 3;
+}
+
+message EncryptRequest {
+  string key_ring = 1;
+  bytes data = 2;
+}
+message EncryptResponse {
+  string ciphertext = 1;
+}
+
+message DecryptRequest {
+  string key_ring = 1;
+  string ciphertext = 2;
+}
+message DecryptResponse {
+  bytes data = 1;
+}
+
+message MACRequest {
+  string key_ring = 1;
+  bytes message = 2;
+}
+message MACResponse {
+  string tag = 1;
+}
+
+message SignRequest {
+  string key_ring = 1;
+  bytes message = 2;
+}
+message SignResponse {
+  string signature = 1;
+  bytes raw_signature = 2;
+}
+
+message VerifyRequest {
+  string key_ring = 1;
+  bytes message = 2;
+  string signature = 3;
+}
+message VerifyResponse {
+  bool valid = 1;
+}
+
+message GenerateTOTPRequest {
+  string key_ring = 1;
+  string issuer = 2;
+  string account_name = 3;
+  string account_id = 4;
+}
+message GenerateTOTPResponse {
+  string id = 1;
+  string uri = 2;
+  string qr_code = 3;
+}
+
+message VerifyTOTPRequest {
+  string key_ring = 1;
+  string id = 2;
+  string account_id = 3;
+  string code = 4;
+}
+message VerifyTOTPResponse {
+  bool valid = 1;
+}
+
+message BatchVerifyTOTPRequest {
+  string key_ring = 1;
+  repeated string ids = 2;
+  string account_id = 3;
+  string code = 4;
+}
+message BatchVerifyTOTPResponse {
+  bool valid = 1;
+  string valid_through_id = 2;
+}
+
+message DeleteTOTPRequest {
+  string key_ring = 1;
+  string id = 2;
+}
+message DeleteTOTPResponse {}
